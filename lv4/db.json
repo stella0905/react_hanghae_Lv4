@@ -1,0 +1,32 @@
+{
+  "posts": [
+    {
+      "title": "123",
+      "content": "123ㅁㄴㅇㅁㄴㅇㅂㅈㅇㅂㅈㅇ",
+      "password": "1234",
+      "currentDate": "23/04/30 23:46",
+      "id": 4
+    },
+    {
+      "title": "ㅎㅎ",
+      "content": "웨 ?외않??????",
+      "password": "1234",
+      "currentDate": "23/04/30 23:50",
+      "id": 6
+    },
+    {
+      "title": "저는 번호 3번입니다.",
+      "content": "33",
+      "password": "1234",
+      "currentDate": "23/04/30 23:53",
+      "id": 7
+    },
+    {
+      "title": "저는 번호 4번입니다.",
+      "content": "444",
+      "password": "1234",
+      "currentDate": "23/05/01 00:00",
+      "id": 8
+    }
+  ]
+}
