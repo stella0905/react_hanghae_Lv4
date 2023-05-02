@@ -12,7 +12,7 @@ const Thread = () => {
     setModal(!modal)
   }
   //tract query로 데이터 조회
-  const {isLoading, isError, data} = useQuery("posts",getBoards)
+  const {isLoading, isError, data} = useQuery("getBoards",getBoards)
   
   if(isLoading) return <div>Loading...</div>
   if(isError) return <div>Error: {Error.message}</div>
@@ -20,7 +20,7 @@ const Thread = () => {
   return (
     <CSS.Main>
       <CSS.buttonHandler>
-      <Button type={"edit"} size='M' onClick={toggleModal}>게시글 등록하기</Button>
+      <Button type="blue" size='M' onClick={toggleModal}>게시글 등록하기</Button>
       </CSS.buttonHandler>
       {modal && <InputModal modal={modal} toggleModal={toggleModal} />}
     <CSS.ThreadContainer>

@@ -14,7 +14,7 @@ const InputModal = (props) => {
   const queryClient = useQueryClient();
   const mutation =useMutation(addBoards,{
     onSuccess: ()=>{
-      queryClient.invalidateQueries("posts")
+      queryClient.invalidateQueries("getBoards")
     }
   })
   //db에 저장할 데이터
@@ -56,6 +56,7 @@ const InputModal = (props) => {
         <CSS.Content>
           제목을 입력해 주세요.
           <CSS.InputTitle 
+          size={'30px'}
           type="text" 
           value={title} 
           onChange={onChangTitleHandler}/>
@@ -72,8 +73,8 @@ const InputModal = (props) => {
           onChange={onChangPasswordHandler}/></div>
         </CSS.Content>
         <CSS.ModalButton>
-          <Button type={"edit"} onClick={()=>onClickSaveToggleButton(props.toggleModal)}>등록하기</Button>
-          <Button type={"remove"} onClick={()=>onClickDeleteToggleButton(props.toggleModal)}>취소하기</Button>
+          <Button type="blue" onClick={()=>onClickSaveToggleButton(props.toggleModal)}>등록하기</Button>
+          <Button type="red" onClick={()=>onClickDeleteToggleButton(props.toggleModal)}>취소하기</Button>
         </CSS.ModalButton>
       </CSS.ModalContent>
     </CSS.ModalOverlay>

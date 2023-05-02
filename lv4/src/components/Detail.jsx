@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { QueryClient, useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
-import { editBoards, getBoards, removeBoards } from '../axios/apiConfig'
+import { editBoards, getBoard, getBoards, removeBoards } from '../axios/apiConfig'
 import Button from './componet/Button'
 import getCurrentDateTime from './componet/getCurrentDateTime'
 import Header from './Header'
@@ -12,7 +12,9 @@ const Detail = () => {
   const params = useParams()
   const navigate = useNavigate();
   const [editing,setEditing] = useState(true)
-  
+  //단일 조회
+  const {isLoading, isError, data} = useQuery('getBoard',()=>getBoard(params.id))
+
   //수정하기 useState
   const [state, setState] = useState({
     title:"",
@@ -27,35 +29,33 @@ const Detail = () => {
   //삭제하기 
   const mutation =useMutation(removeBoards,{
     onSuccess: ()=>{
-      queryClient.invalidateQueries("posts")
+      queryClient.invalidateQueries("getBoards")
       getBoards();
     }
   })
   //수정하기
   const editMutation = useMutation(editBoards,{
     onSuccess: ()=>{
-      queryClient.invalidateQueries("posts")
+      queryClient.invalidateQueries("getBoard")
       getBoards();
     }
   })
 
-  const {isLoading, isError, data} = useQuery("posts",getBoards)
-
   if(isLoading) return <div>Loading...</div>
   if(isError) return <div>Error: {Error.message}</div>
 
-  const foundData = data.find((item)=>{
-    return item.id === parseInt(params.id)
-  })
+  // const foundData = data.find((item)=>{
+  //   return item.id === parseInt(params.id)
+  // })
 
   //삭제하기 함수
   const CONFIRM_MESSAGE = `[삭제 확인]\n\n게시물을 정말로 삭제하시겠습니까?\n삭제를 원치 않으시면 [취소] 버튼을 눌러주세요.`;
 
   const onClickRemoveButtonHandler = () =>{
     const userPasswordInput = prompt('비밀번호를 입력해주세요.')
-    if(userPasswordInput === foundData.password ){
+    if(userPasswordInput === data.password ){
       if(window.confirm(CONFIRM_MESSAGE)){
-      mutation.mutate(foundData.id)
+      mutation.mutate(data.id)
       navigate("/main")
     }}else {
       alert('비밀번호가 틀렸습니다. 다시 입력해주세요.')
@@ -66,10 +66,10 @@ const Detail = () => {
   //수정하기 버튼 함수
   const onClickEditButtonHandler = () =>{
     const userPasswordInput = prompt('비밀번호를 입력해주세요.')
-    if(userPasswordInput === foundData.password ){
+    if(userPasswordInput === data.password ){
     setState({
-      title:foundData.title,
-      content:foundData.content
+      title:data.title,
+      content:data.content
     })
     setEditing(!editing)
     }else {
@@ -82,7 +82,7 @@ const Detail = () => {
   //수정완료 함수
   const onClickEditCompleteButtonHandler = () =>{
     
-    editMutation.mutate({id:foundData.id,title:state.title,content:state.content,currentDate})
+    editMutation.mutate({id:data.id,title:state.title,content:state.content,currentDate})
     setEditing(!editing)
   }
   //취소하기 버튼
@@ -96,13 +96,13 @@ const Detail = () => {
       <Header page={-1}/>
       {editing &&
       <CSS.DetailMain>
-        <CSS.Date>수정일 {foundData.currentDate}</CSS.Date>
-        <CSS.DetailH1>{foundData.title}</CSS.DetailH1>
-        <CSS.DetailContent>{foundData.content}</CSS.DetailContent>
+        <CSS.Date>수정일 {data.currentDate}</CSS.Date>
+        <CSS.DetailH1>{data.title}</CSS.DetailH1>
+        <CSS.DetailContent>{data.content}</CSS.DetailContent>
     
         <CSS.ButtonContainer>
-          <Button type="edit" onClick={onClickEditButtonHandler}>수정하기</Button>
-          <Button type="remove" onClick={()=>onClickRemoveButtonHandler()}>삭제하기</Button>
+          <Button type="blue" onClick={onClickEditButtonHandler}>수정하기</Button>
+          <Button type="red" onClick={()=>onClickRemoveButtonHandler()}>삭제하기</Button>
         </CSS.ButtonContainer>
       </CSS.DetailMain>}
 
@@ -125,11 +125,11 @@ const Detail = () => {
           name='content'
           value={state.content} 
           onChange={onChangHandler} /> 
-        </CSS.Form>
+        </CSS.Form> 
     
         <CSS.ButtonContainer>
-          <Button type="edit" onClick={onClickEditCompleteButtonHandler}>수정완료</Button>
-          <Button type="remove" onClick={onClickEditCancelButtonHandler}>취소하기</Button>
+          <Button type="blue" onClick={onClickEditCompleteButtonHandler}>수정완료</Button>
+          <Button type="red" onClick={onClickEditCancelButtonHandler}>취소하기</Button>
         </CSS.ButtonContainer>
       </CSS.DetailEditMain>}
     </CSS.DetailEntire>

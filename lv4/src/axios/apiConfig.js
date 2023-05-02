@@ -1,4 +1,5 @@
 import axios from "axios"
+import { useParams } from "react-router-dom"
 
 
 
@@ -12,6 +13,11 @@ const getBoards = async () => {
   return response.data
 }
 
+//단일 조회
+const getBoard = async (props) => {
+  const response = await instance.get(`/posts/${props}`)
+  return response.data
+}
 //추가
 //어떤 Post를 추가했는지 알아야하기 때문에 인자로 newPost를 받는다.
 const addBoards = async (newPost) => {
@@ -32,4 +38,5 @@ const removeBoards = async (id) => {
   instance.delete(`/posts/${id}`)
 }
 
-export { getBoards, addBoards, removeBoards, editBoards }
+export { getBoards, addBoards, removeBoards, editBoards, getBoard }
+

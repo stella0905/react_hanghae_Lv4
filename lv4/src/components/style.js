@@ -4,9 +4,9 @@ import styled from "styled-components";
 export const Button = styled.button`
 background-color:${(props) => {
     switch (props.type) {
-      case 'edit':
+      case 'blue':
         return '#A0C3D2'
-      case 'remove':
+      case 'red':
         return '#EAC7C7'
       default:
         return 'transparent'
@@ -25,6 +25,10 @@ top:${(props) => props.top};
 bottom:${(props) => props.bottom};
 left:${(props) => props.left};
 right:${(props) => props.right};
+`
+export const explain = styled.div`
+color:gray;
+font-size:15px;
 `
 
 export const Header = styled.header`
@@ -94,15 +98,32 @@ export const Content = styled.form`
 padding:20px;
 display:flex;
 flex-direction:column;
+font-size:13px;
+color:gray;
 `
 export const InputTitle = styled.input`
 padding:10px;
-font-size:30px;
+font-size:${(props) => (props.size)};
 margin-bottom:30px;
+width:${(props) => {
+    switch (props.type) {
+      case 'login':
+        return '300px';
+      default:
+        return;
+    }
+  }};
+  background-color:${(props) => props.type === 'login' ? 'transparent' : 'none'};
+  border:none;
+  border-bottom:1px solid black;
+  &:focus {outline:none;}
 `
 export const InputContent = styled.textarea`
 padding:10px;
 height:${(props) => (props.size === 's' ? '360px' : '560px')};
+&:focus {outline:none;}
+border:none;
+border-bottom:1px solid black;
 `
 export const InputPassword = styled.input`
 padding:10px;
@@ -189,6 +210,8 @@ font-size:20px;
 height:550px;
 padding:20px;
 border-bottom:1px solid gray;
+//줄바꿈 
+white-space:pre-line;
 `
 export const ButtonContainer = styled.div`
 position:absolute;
@@ -217,4 +240,14 @@ export const HomeTextLink = styled(Link)`
 export const HomeMain = styled.main`
 background-color: #F7F5EB;
 height:100vh;
+`
+//Login
+export const Login = styled.h1`
+font-size:40px;
+padding:20px;
+margin-top:80px;
+font-weight:600;
+`
+export const WarningMessage = styled.div`
+color:red;
 `
