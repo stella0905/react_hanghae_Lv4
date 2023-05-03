@@ -76,8 +76,6 @@ const SignUp = () => {
       <CSS.Button size='M' type='red' onClick={onClickSignUpHandler}>SignUp</CSS.Button>
     </CSS.Main>
     </>
-
-
   )
 }
 
